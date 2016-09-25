@@ -38,6 +38,7 @@ public class App {
         put("/api/v1/todos/:id", "application/json", (req, res) -> {
             Todo todo = dao.findById(Integer.parseInt(req.params("id")));
             todo.setName(gson.fromJson(req.body(), Todo.class).getName());
+            todo.setCompleted(gson.fromJson(req.body(), Todo.class).isCompleted());
             dao.save(todo);
             return todo;
         }, gson::toJson);

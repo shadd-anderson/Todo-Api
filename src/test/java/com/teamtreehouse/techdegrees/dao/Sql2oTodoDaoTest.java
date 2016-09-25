@@ -64,10 +64,11 @@ public class Sql2oTodoDaoTest {
         Todo todo = newTodo();
         dao.add(todo);
 
+        todo.setCompleted(true);
         todo.setName("new name");
         dao.save(todo);
 
-        assertEquals("new name", dao.findById(todo.getId()).getName());
+        assertArrayEquals(new Object[]{"new name", true}, new Object[]{dao.findById(todo.getId()).getName(), dao.findById(todo.getId()).isCompleted()});
     }
 
     @Test

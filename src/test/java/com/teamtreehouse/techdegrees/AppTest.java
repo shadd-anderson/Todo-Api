@@ -79,15 +79,16 @@ public class AppTest {
     }
 
     @Test
-    public void PUTtingTodoChangesName() throws Exception {
+    public void PUTtingTodoChangesNameAndEdited() throws Exception {
         Todo todo = new Todo("test");
         dao.add(todo);
-        Map<String, String> newName = new HashMap<>();
-        newName.put("name", "new name");
+        Map<String, Object> newTodo = new HashMap<>();
+        newTodo.put("name", "new name");
+        newTodo.put("completed", true);
 
-        client.request("PUT", String.format("/api/v1/todos/%d",todo.getId()), gson.toJson(newName));
+        client.request("PUT", String.format("/api/v1/todos/%d",todo.getId()), gson.toJson(newTodo));
 
-        assertEquals("new name", dao.findById(todo.getId()).getName());
+        assertArrayEquals(new Object[]{"new name", true}, new Object[]{dao.findById(todo.getId()).getName(), dao.findById(todo.getId()).isCompleted()});
     }
 
     @Test
